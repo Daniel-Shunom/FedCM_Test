@@ -1,46 +1,64 @@
-# Welcome to your Expo app 👋
+# FedCM_Test: Implementing Google's Federated Credentials Management API with Expo
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+This Expo project demonstrates an implementation of Google's Federated Credentials Management (FedCM) API for streamlined and secure user authentication.
 
-## Get started
+## Overview
 
-1. Install dependencies
+This project explores the use of FedCM to simplify the sign-in process while enhancing user privacy. It provides a basic login screen with Google Sign-In integration via FedCM.
 
-   ```bash
-   npm install
-   ```
+## Key Components
 
-2. Start the app
+-   **`app/index.tsx`**: The main application entry point, featuring a login form and a Google Sign-In button.
+-   **`components/LoginForm.tsx`**: A component for handling traditional email/password login (currently a placeholder).
+-   **`components/ui/googleSiginButton.tsx`**: A component that renders the Google Sign-In button and initializes the FedCM flow.
+-   **`protected/tokenhandler.ts`**: Handles the credential response from Google and exchanges it for user information.
+-   **`.env`**: Stores the Google Client ID and endpoint for token verification.
 
-   ```bash
+## Get Started
+
+1.  Install dependencies:
+
+    ```bash
+    npm install
+    ```
+
+2.  Configure your Google Client ID:
+
+    *   Obtain a Google Client ID from the Google Cloud Console.
+    *   Update the `.env` file with your Client ID.
+
+    ```
+    EXPO_PUBLIC_CLIENT_ID=YOUR_CLIENT_ID
+    EXPO_PUBLIC_GOOGLE_END_POINT=https://oauth2.googleapis.com/tokeninfo?id_token=
+    ```
+
+3.  Start the app:
+
+    ```bash
     npx expo start
-   ```
+    ```
 
-In the output, you'll find options to open the app in a
+## FedCM Flow
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+1.  The `GoogleSignInButton` component loads the Google Sign-In client library.
+2.  `tokenhandler.ts` initializes the FedCM flow with your Client ID and a callback function (`handleCredentialResponse`).
+3.  The user clicks the Google Sign-In button.
+4.  Google's FedCM API handles the authentication process.
+5.  Upon successful authentication, the `handleCredentialResponse` function receives the encoded JWT ID token.
+6.  The token is sent to Google's tokeninfo endpoint for verification.
+7.  User data is retrieved and used to authenticate the user in the application.
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+## Learn More
 
-## Get a fresh project
+-   [Google Federated Credentials Management API](https://developers.google.com/identity/fedcm)
+-   [Expo documentation](https://docs.expo.dev/)
+-   [Expo Router documentation](https://docs.expo.dev/router/)
 
-When you're ready, run:
+## Notes
 
-```bash
-npm run reset-project
-```
-
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
-
-## Learn more
-
-To learn more about developing your project with Expo, look at the following resources:
-
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+-   This is a demonstration project and may require further development for production use.
+-   The email/password login functionality is not fully implemented.
+-   The `updateAuthState` function in `tokenhandler.ts` needs to be implemented to properly manage the user's authentication state.
 
 ## Join the community
 
