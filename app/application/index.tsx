@@ -13,9 +13,11 @@ import { ThemedView } from '@/components/ThemedView';
 import { ThemedText } from '@/components/ThemedText';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { Colors } from '@/constants/Colors';
+import { useRouter } from 'expo-router';
 
 export default function HomeScreen() {
     const colorScheme = useColorScheme();
+    const router = useRouter();
     const backgroundColor = colorScheme === 'dark' ? Colors.dark.background : Colors.light.background;
     const boxBackground = colorScheme === 'dark' ? '#1E1E1E' : '#ffffff';
     const actionButtonBackground = colorScheme === 'dark' ? '#2D2D2D' : '#f0f0f0';
@@ -23,8 +25,16 @@ export default function HomeScreen() {
     return (
         <ScrollView style={[styles.container, { backgroundColor }]}>
             <ThemedView style={styles.header}>
-                <ThemedText style={styles.welcomeText}>Welcome Back!</ThemedText>
-                <ThemedText style={styles.subText}>Let's explore what's new today</ThemedText>
+                <View>
+                    <ThemedText style={styles.welcomeText}>Welcome Back!</ThemedText>
+                    <ThemedText style={styles.subText}>Let's explore what's new today</ThemedText>
+                </View>
+                <TouchableOpacity 
+                    style={styles.logoutButtonHeader}
+                    onPress={() => router.replace('/')}
+                >
+                    <ThemedText style={styles.logoutText}>Logout</ThemedText>
+                </TouchableOpacity>
             </ThemedView>
 
             <View style={styles.bentoGrid}>
@@ -74,6 +84,10 @@ const styles = StyleSheet.create({
     header: {
         padding: 24,
         marginBottom: 16,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        position: 'relative',
     },
     welcomeText: {
         fontSize: 32,
@@ -83,6 +97,17 @@ const styles = StyleSheet.create({
     subText: {
         fontSize: 16,
         opacity: 0.7,
+    },
+    logoutButtonHeader: {
+        backgroundColor: '#A1CEDC',
+        paddingHorizontal: 16,
+        paddingVertical: 8,
+        borderRadius: 8,
+    },
+    logoutText: {
+        fontSize: 14,
+        fontWeight: 'bold',
+        color: '#000',
     },
     bentoGrid: {
         padding: 16,
