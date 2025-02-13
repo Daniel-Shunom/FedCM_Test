@@ -1,13 +1,8 @@
-import { config } from "dotenv";
 import { router } from "expo-router";
-
-if (typeof process.cwd === 'function') {
-    config();
-}
 
 export const initializeGoogleSignIn = () => {
   window.google.accounts.id.initialize({
-    client_id: process.env.CLIENT_ID,
+    client_id: process.env.EXPO_PUBLIC_CLIENT_ID,
     callback: handleCredentialResponse,
     redirect_uri: '/applcation'
   });
@@ -25,7 +20,7 @@ export const handleCredentialResponse = async (response: any) => {
   console.log("Encoded JWT ID token: " + response);
 
   try {
-    const res = await fetch(`${process.env.GOOGLE_END_POINT}${response.credential}`);
+    const res = await fetch(`${process.env.EXPO_PUBLIC_GOOGLE_END_POINT}${response.credential}`);
     const data = await res.json();
 
     /*
