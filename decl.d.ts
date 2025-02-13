@@ -3,7 +3,7 @@ interface CredentialResponse {
 }
 
 interface GoogleInitializeConfig {
-  client_id: string;
+  client_id?: string;
   callback: (response: CredentialResponse) => void;
   auto_select?: boolean;
   redirect_uri?: string;
