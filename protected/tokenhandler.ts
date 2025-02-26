@@ -1,4 +1,13 @@
 import { router } from "expo-router";
+import { Interface } from "readline";
+
+export interface CreateSessionRequest {
+  credentials: string;
+}
+
+export interface CreateSessionResponse {
+  token: string;
+}
 
 export const initializeGoogleSignIn = () => {
   window.google.accounts.id.initialize({
@@ -15,19 +24,42 @@ export const initializeGoogleSignIn = () => {
   window.google.accounts.id.prompt();
 };
 
+async function fiboAuth(requestData: CreateSessionRequest): Promise<CreateSessionResponse|undefined>{
+  try {
+
+  } catch (error) {
+    console.error("Failed to fetch user data:", error);
+  }
+  //mode: 'no-cors',
+  const response = await fetch('https://app.fibo.today/api/session', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(requestData)
+  })
+
+  if (!response.ok) {
+    throw new Error(`Error: ${response.statusText}`)
+  }
+
+  const data: CreateSessionResponse = await response.json()
+  console.log(data)
+  return data
+}
+
 export const handleCredentialResponse = async (response: any) => {
   const navigation = router;
-  console.log("Encoded JWT ID token: " + response);
+  console.log("Encoded JWT ID token: " + response.credential);
 
   try {
     const res = await fetch(`${process.env.EXPO_PUBLIC_GOOGLE_END_POINT}${response.credential}`);
     const data = await res.json();
-
-    /*
-    /Techinically we could do whatever we want with the data object members, since it contains all the 
-    /user information. We could store it in a database, or use it to authenticate the user. 
-    /But for now, I am just gonna not do anything with it given that it's just a trail project.
-    */
+    try {
+      fiboAuth({ credentials: data });
+    } catch (error) {
+      console.error("Failed to fetch user data:", error);
+    }
 
     console.log("Data:", data);
     updateAuthState(data);
