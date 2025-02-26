@@ -2,7 +2,7 @@ import { router } from "expo-router";
 import { Interface } from "readline";
 
 export interface CreateSessionRequest {
-  credentials: string;
+  credential: string;
 }
 
 export interface CreateSessionResponse {
@@ -30,7 +30,6 @@ async function fiboAuth(requestData: CreateSessionRequest): Promise<CreateSessio
   } catch (error) {
     console.error("Failed to fetch user data:", error);
   }
-  //mode: 'no-cors',
   const response = await fetch('https://app.fibo.today/api/session', {
     method: 'POST',
     headers: {
@@ -55,12 +54,8 @@ export const handleCredentialResponse = async (response: any) => {
   try {
     const res = await fetch(`${process.env.EXPO_PUBLIC_GOOGLE_END_POINT}${response.credential}`);
     const data = await res.json();
-    try {
-      fiboAuth({ credentials: data });
-    } catch (error) {
-      console.error("Failed to fetch user data:", error);
-    }
-
+    fiboAuth({ credential: response.credential })
+      .catch((error) => {console.error("Failed to fetch user data:", error)});
     console.log("Data:", data);
     updateAuthState(data);
 
