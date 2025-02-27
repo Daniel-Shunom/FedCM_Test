@@ -8,19 +8,38 @@ as placeholders.
 */
 
 
-import { View, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, StyleSheet, TouchableOpacity, ScrollView, Dimensions, useWindowDimensions } from 'react-native';
 import { ThemedView } from '@/components/ThemedView';
 import { ThemedText } from '@/components/ThemedText';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { Colors } from '@/constants/Colors';
 import { useRouter } from 'expo-router';
+import { CourseContainer } from '@/components/ui/courseContainer';
+import { ProfileSection } from '@/components/ui/profileSection';
+import { getCourses } from '@/protected/courses/courses';
 
 export default function HomeScreen() {
+    const { width } = useWindowDimensions();
+    const isMobile = width < 768;
     const colorScheme = useColorScheme();
     const router = useRouter();
     const backgroundColor = colorScheme === 'dark' ? Colors.dark.background : Colors.light.background;
     const boxBackground = colorScheme === 'dark' ? '#1E1E1E' : '#ffffff';
     const actionButtonBackground = colorScheme === 'dark' ? '#2D2D2D' : '#f0f0f0';
+    const [courses, setCourses] = useState<{ id: string; title: string }[]>([]);
+    const token = localStorage.getItem('fibo_session_token');
+
+    useEffect(() => {
+        const fetchCourses = async () => {
+            if (token) {
+                const coursesData = await getCourses(token)
+                setCourses(coursesData || []);
+            }
+        };
+
+        fetchCourses();
+    }, [token]);
 
     return (
         <ScrollView style={[styles.container, { backgroundColor }]}>
@@ -37,42 +56,62 @@ export default function HomeScreen() {
                 </TouchableOpacity>
             </ThemedView>
 
-            <View style={styles.bentoGrid}>
-                {/* Quick Actions Bento Box */}
-                <TouchableOpacity style={[styles.bentoBox, styles.boxLarge, { backgroundColor: boxBackground }]}>
-                    <ThemedText style={styles.boxTitle}>Quick Actions</ThemedText>
-                    <View style={styles.actionButtons}>
-                        <TouchableOpacity style={[styles.actionButton, { backgroundColor: actionButtonBackground }]}>
-                            <ThemedText>Start New Project</ThemedText>
-                        </TouchableOpacity>
-                        <TouchableOpacity style={[styles.actionButton, { backgroundColor: actionButtonBackground }]}>
-                            <ThemedText>View Reports</ThemedText>
-                        </TouchableOpacity>
+            <View style={[styles.contentArea, isMobile && styles.contentAreaMobile]}>
+                <View style={[styles.leftColumn, isMobile && styles.leftColumnMobile]}>
+                    <ProfileSection backgroundColor={boxBackground} />
+                    <View style={[styles.courseListing, isMobile && styles.courseListingMobile]}>
+                        <ScrollView 
+                            style={[styles.courseScroll, { backgroundColor: boxBackground, borderRadius: 16 }]}
+                            showsVerticalScrollIndicator={false}
+                            contentContainerStyle={styles.courseScrollContent}
+                        >
+                            {courses.map((course) => (
+                                <View style={styles.bentoBox} key={course.id}>
+                                    <CourseContainer courseName={course.title} />
+                                </View>
+                            ))}
+                        </ScrollView>
                     </View>
-                </TouchableOpacity>
+                </View>
+        
+                <View style={[styles.bentoGrid, isMobile && styles.bentoGridMobile]}>
+                    {/* Quick Actions Bento Box */}
+                    <TouchableOpacity style={[styles.bentoBox, styles.boxLarge, { backgroundColor: boxBackground }]}>
+                        <ThemedText style={styles.boxTitle}>Quick Actions</ThemedText>
+                        <View style={styles.actionButtons}>
+                            <TouchableOpacity style={[styles.actionButton, { backgroundColor: actionButtonBackground }]}>
+                                <ThemedText>Start New Project</ThemedText>
+                            </TouchableOpacity>
+                            <TouchableOpacity style={[styles.actionButton, { backgroundColor: actionButtonBackground }]}>
+                                <ThemedText>View Reports</ThemedText>
+                            </TouchableOpacity>
+                        </View>
+                    </TouchableOpacity>
+        
+                    {/* Statistics Bento Box */}
+                    <TouchableOpacity style={[styles.bentoBox, styles.boxSmall, { backgroundColor: boxBackground }]}>
+                        <ThemedText style={styles.boxTitle}>Statistics</ThemedText>
+                        <ThemedText style={styles.statsNumber}>12</ThemedText>
+                        <ThemedText style={styles.statsLabel}>Active Projects</ThemedText>
+                    </TouchableOpacity>
+        
+                    {/* Notifications Bento Box */}
+                    <TouchableOpacity style={[styles.bentoBox, styles.boxMedium, { backgroundColor: boxBackground }]}>
+                        <ThemedText style={styles.boxTitle}>Recent Updates</ThemedText>
+                        <View style={styles.notificationList}>
+                            <ThemedText style={styles.notification}>• New feature available</ThemedText>
+                            <ThemedText style={styles.notification}>• 2 tasks due today</ThemedText>
+                        </View>
+                    </TouchableOpacity>
+        
+                    {/* Resources Bento Box */}
+                    <TouchableOpacity style={[styles.bentoBox, styles.boxMedium, { backgroundColor: boxBackground }]}>
+                        <ThemedText style={styles.boxTitle}>Resources</ThemedText>
+                        <ThemedText style={styles.resourceText}>Access documentation, guides, and help</ThemedText>
+                    </TouchableOpacity>
+                </View>
+            </View> 
 
-                {/* Statistics Bento Box */}
-                <TouchableOpacity style={[styles.bentoBox, styles.boxSmall, { backgroundColor: boxBackground }]}>
-                    <ThemedText style={styles.boxTitle}>Statistics</ThemedText>
-                    <ThemedText style={styles.statsNumber}>12</ThemedText>
-                    <ThemedText style={styles.statsLabel}>Active Projects</ThemedText>
-                </TouchableOpacity>
-
-                {/* Notifications Bento Box */}
-                <TouchableOpacity style={[styles.bentoBox, styles.boxMedium, { backgroundColor: boxBackground }]}>
-                    <ThemedText style={styles.boxTitle}>Recent Updates</ThemedText>
-                    <View style={styles.notificationList}>
-                        <ThemedText style={styles.notification}>• New feature available</ThemedText>
-                        <ThemedText style={styles.notification}>• 2 tasks due today</ThemedText>
-                    </View>
-                </TouchableOpacity>
-
-                {/* Resources Bento Box */}
-                <TouchableOpacity style={[styles.bentoBox, styles.boxMedium, { backgroundColor: boxBackground }]}>
-                    <ThemedText style={styles.boxTitle}>Resources</ThemedText>
-                    <ThemedText style={styles.resourceText}>Access documentation, guides, and help</ThemedText>
-                </TouchableOpacity>
-            </View>
         </ScrollView>
     );
 }
@@ -80,6 +119,7 @@ export default function HomeScreen() {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        paddingBottom: 16,
     },
     header: {
         padding: 24,
@@ -109,20 +149,58 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         color: '#000',
     },
+    contentArea: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        paddingHorizontal: 16, 
+    },
+    contentAreaMobile: {
+        flexDirection: 'column',
+        paddingHorizontal: 8,
+    },
+    leftColumn: {
+        width: '30%',
+    },
+    leftColumnMobile: {
+        width: '100%',
+        marginBottom: 16,
+    },
+    courseListing: {
+        borderRadius: 16,
+        width: '100%', 
+        height: '85vh',
+    },
+    courseListingMobile: {
+        width: '100%',
+        height: 400,
+        marginBottom: 16,
+    },
+    courseScroll: {
+        flex: 1,
+        padding: 12, 
+    },
+    courseScrollContent: {
+        gap: 8,
+    },
     bentoGrid: {
-        padding: 16,
+        width: '68%',
         flexDirection: 'row',
         flexWrap: 'wrap',
         gap: 16,
     },
+    bentoGridMobile: {
+        width: '100%',
+        gap: 8,
+    },
     bentoBox: {
-        borderRadius: 16,
-        padding: 20,
+        borderRadius: 12,
+        padding: 16,
         shadowColor: '#000',
         shadowOffset: { width: 0, height: 2 },
         shadowOpacity: 0.1,
         shadowRadius: 8,
         elevation: 3,
+        // Remove marginBottom since we're using gap in courseScrollContent
     },
     boxLarge: {
         width: '100%',
@@ -135,6 +213,15 @@ const styles = StyleSheet.create({
     boxSmall: {
         width: '48%',
         minHeight: 140,
+    },
+    // Add responsive styles for boxes on mobile
+    boxMediumMobile: {
+        width: '100%',
+        minHeight: 120,
+    },
+    boxSmallMobile: {
+        width: '100%',
+        minHeight: 120,
     },
     boxTitle: {
         fontSize: 18,
