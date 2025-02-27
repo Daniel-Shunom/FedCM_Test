@@ -18,7 +18,6 @@ export default function LoginScreen() {
         onSubmit={(email, password) => {
         }}
       />
-      <GoogleSignInButton />
     </ThemedView>
   );
 }
