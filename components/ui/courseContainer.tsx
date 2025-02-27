@@ -1,62 +1,68 @@
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { CourseProps } from "../types/types";
-import { getCourses } from "@/protected/courses/courses";
 
 export const CourseContainer: React.FC<CourseProps> = ({ courseName }) => {
-  const token = sessionStorage.getItem('fibo_session_token');
-  getCourses(token);
   return (
     <View style={CourseContainerStyles.container}>
-      <View style={CourseContainerStyles.circleContainer}>
-        <View style={CourseContainerStyles.circle} />
+      <View style={CourseContainerStyles.content}>
+        <Text style={CourseContainerStyles.title}>{courseName}</Text>
+        <View style={CourseContainerStyles.details}>
+          <Text style={CourseContainerStyles.detailText}>Next Lesson: Tomorrow</Text>
+          <Text style={CourseContainerStyles.detailText}>80% Complete</Text>
+        </View>
       </View>
-      <Text style={CourseContainerStyles.containerText}>course: {courseName}</Text>
+      <View style={CourseContainerStyles.accentLine} />
     </View>
   );
 };
 
 const CourseContainerStyles = StyleSheet.create({
   container: {
-    backgroundColor: "#fff", 
-    borderRadius: 12, 
-    padding: 16, 
-    shadowColor: "#000",
+    backgroundColor: '#f9f9f9',  
+    borderRadius: 8,  
+    padding: 8, 
+    shadowColor: '#2E9AFE', 
     shadowOffset: {
       width: 0,
-      height: 2,
+      height: 4,
     },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 3,
-    marginVertical: 8,
+    shadowOpacity: 0.3, // Increased shadow opacity
+    shadowRadius: 6, // Increased shadow radius
+    elevation: 5, // Increased elevation for Android
+    marginVertical: 12, // Increased vertical margin
     marginHorizontal: 16,
-    position: 'relative',
-    overflow: 'hidden',
+    overflow: 'hidden', // Clip content that overflows
+    borderWidth: 1, // Add a subtle border
+    borderColor: '#E0E0E0', // Light grey border color
   },
-  containerText: {
-    fontSize: 18, 
-    fontWeight: "500",
-    color: "#333",
-    textAlign: "center",
-    zIndex: 1, 
+  content: {
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+    height: '100%',
   },
-  circleContainer: {
+  title: {
+    fontSize: 18, // Larger title font size
+    fontWeight: '600', // Bold title font weight
+    color: '#333', // Dark grey title color
+    marginBottom: 4, // Add some spacing below the title
+    textAlign: 'left', // Align title to the left
+  },
+  details: {
+    marginTop: 4,
+  },
+  detailText: {
+    fontSize: 14, 
+    color: '#777',
+    marginBottom: 4, 
+    textAlign: 'left',
+  },
+  accentLine: {
     position: 'absolute',
-    top: 0,
+    bottom: 0,
     left: 0,
     width: '100%',
-    height: '100%',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  circle: {
-    width: 100,
-    height: 100,
-    borderRadius: 50,
-    backgroundColor: 'rgba(0, 122, 255, 0.1)',
-    position: 'absolute',
-    bottom: -20,
-    right: -20,
+    height: 4, 
+    backgroundColor: '#2E9AFE', 
   },
 });
