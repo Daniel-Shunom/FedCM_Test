@@ -7,9 +7,8 @@ Description: Application entry point with login screen.
 
 import React from 'react';
 import { StyleSheet } from 'react-native';
-import { ThemedView } from '../components/ThemedView';
-import { LoginForm } from '../components/LoginForm';
-import GoogleSignInButton from '../components/ui/googleSiginButton';
+import { ThemedView } from '@/components/ThemedView';
+import { LoginForm } from '@/components/LoginForm';
 
 export default function LoginScreen() {
   return (
