@@ -8,7 +8,7 @@ Note: Actual email and password section does not load in yet.
 
 import React, { useEffect } from "react";
 import { View } from "react-native-web";
-import { initializeGoogleSignIn } from "@/protected/tokenhandler";
+import { initializeGoogleSignIn } from "@/protected/auth/auth";
 
 const GoogleSignInButton: React.FC = () => {
     useEffect(() => {
