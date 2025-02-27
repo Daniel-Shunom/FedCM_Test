@@ -103,10 +103,13 @@ const styles = StyleSheet.create({
     width: '100%',
     maxWidth: 400,
     alignSelf: 'center',
+    backgroundColor: '#d3d3d3',
+    borderRadius: 8,
   },
   title: {
     textAlign: 'center',
     marginBottom: 20,
+    color: '#000',
   },
   input: {
     height: 48,
