@@ -78,7 +78,7 @@ const styles = StyleSheet.create({
   avatar: {
     width: '100%',
     height: '100%',
-    //backgroundColor: '#A1CEDC',
+    backgroundColor: '#A1CEDC',
   },
   profileText: {
     gap: 4,
