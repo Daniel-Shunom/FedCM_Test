@@ -2,7 +2,7 @@ import React, { useState, useRef } from 'react';
 import { Animated, StyleSheet, TextInput, Text, TouchableOpacity, Platform, UIManager } from 'react-native';
 import { ThemedView } from './ThemedView';
 import { ThemedText } from './ThemedText';
-import GoogleSignInButton from './ui/googleSiginButton';
+import GoogleSignInButton, { NativeGoogleSignIn } from './ui/googleSiginButton';
 import { SignUpForm } from './SignupForm';
 
 interface LoginFormProps {
@@ -86,7 +86,8 @@ export function LoginForm({ onSubmit }: LoginFormProps) {
       </TouchableOpacity>
       
       <Text style={styles.buttonText1}>or login with google</Text>
-      <GoogleSignInButton />
+      {Platform.OS === 'web' ? (<GoogleSignInButton />) : (<NativeGoogleSignIn onPress={() => {}} />)}
+      
       
       <TouchableOpacity onPress={toggleForm}>
         <Text style={[styles.buttonText1, styles.linkText]}>

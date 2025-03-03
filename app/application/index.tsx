@@ -29,6 +29,7 @@ export default function HomeScreen() {
     const actionButtonBackground = colorScheme === 'dark' ? '#2D2D2D' : '#f0f0f0';
     const [courses, setCourses] = useState<{ id: string; title: string }[]>([]);
     const token = localStorage.getItem('fibo_session_token');
+    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
     useEffect(() => {
         const fetchCourses = async () => {
@@ -59,19 +60,37 @@ export default function HomeScreen() {
             <View style={[styles.contentArea, isMobile && styles.contentAreaMobile]}>
                 <View style={[styles.leftColumn, isMobile && styles.leftColumnMobile]}>
                     <ProfileSection backgroundColor={boxBackground} />
-                    <View style={[styles.courseListing, isMobile && styles.courseListingMobile]}>
-                        <ScrollView 
-                            style={[styles.courseScroll, { backgroundColor: boxBackground, borderRadius: 16 }]}
-                            showsVerticalScrollIndicator={false}
-                            contentContainerStyle={styles.courseScrollContent}
-                        >
-                            {courses.map((course) => (
-                                <View style={styles.bentoBox} key={course.id}>
-                                    <CourseContainer courseName={course.title} />
+                    {isMobile ? (
+                        <View style={styles.dropdownContainer}>
+                            <TouchableOpacity
+                                style={styles.dropdownButton}
+                                onPress={() => setIsDropdownOpen(!isDropdownOpen)}
+                            >
+                                <ThemedText>
+                                    {isDropdownOpen ? 'Close Courses' : 'View Courses'}
+                                </ThemedText>
+                            </TouchableOpacity>
+                            {isDropdownOpen && (
+                                <View style={[styles.courseListingMobile, { backgroundColor: boxBackground }]}>
+                                    {courses.map((course) => (
+                                        <CourseContainer courseName={course.title} key={course.id} />
+                                    ))}
                                 </View>
-                            ))}
-                        </ScrollView>
-                    </View>
+                            )}
+                        </View>
+                    ) : (
+                        <View style={[styles.courseListing, isMobile && styles.courseListingMobile]}>
+                            <ScrollView 
+                                style={[styles.courseScroll, { backgroundColor: boxBackground, borderRadius: 16 }]}
+                                showsVerticalScrollIndicator={false}
+                                contentContainerStyle={styles.courseScrollContent}
+                            >
+                                {courses.map((course) => (
+                                    <CourseContainer courseName={course.title} key={course.id} />
+                                ))}
+                            </ScrollView>
+                        </View>
+                    )}
                 </View>
         
                 <View style={[styles.bentoGrid, isMobile && styles.bentoGridMobile]}>
@@ -120,6 +139,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         paddingBottom: 16,
+        height: 20
     },
     header: {
         padding: 24,
@@ -257,5 +277,17 @@ const styles = StyleSheet.create({
         fontSize: 14,
         opacity: 0.8,
         lineHeight: 20,
+    },
+    dropdownContainer: {
+        width: '100%',
+        marginBottom: 16,
+        zIndex: 10
+    },
+    dropdownButton: {
+        backgroundColor: '#A1CEDC',
+        paddingHorizontal: 16,
+        paddingVertical: 8,
+        borderRadius: 8,
+        alignItems: 'center',
     },
 });
