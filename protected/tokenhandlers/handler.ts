@@ -12,6 +12,7 @@ export const handleCredentialResponse = async (response: any) => {
     updateAuthState(data);
 
     await fiboAuth({ credential: response.credential })
+    .then(()=> console.log('Retriving UserData'))
     .catch((error) => {console.error("Failed to fetch user data:", error)})
     .then(()=> console.log('Retrived UserData'));
 
