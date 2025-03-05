@@ -10,8 +10,9 @@ import {
 import { ThemedText } from './ThemedText';
 import { SignUpForm } from './SignupForm';
 
-import { GoogleSignInButton } from './ui/GoogleButtons/GWebSignin'
+import { GoogleWebButton } from './ui/GoogleButtons/GWebAuth'
 import { GoogleMobileSignin } from './ui/GoogleButtons/GMobileAuth'
+import { initializeGoogleSignIn } from '@/protected/auth/auth';
 
 interface LoginFormProps {
   onSubmit: (email: string, password: string) => void;
@@ -94,7 +95,14 @@ export function LoginForm({ onSubmit }: LoginFormProps) {
       </TouchableOpacity>
       
       <Text style={styles.buttonText1}>or login with google</Text>
-      {Platform.OS === 'web' ? (<GoogleSignInButton />) : (<GoogleMobileSignin onPress={() => {}} />)}
+      {Platform.OS === 'web' ? (
+          <GoogleWebButton 
+            scriptSrc= 'https://accounts.google.com/gsi/client'
+            onPress={initializeGoogleSignIn} 
+          />
+        ) 
+        : (<GoogleMobileSignin onPress={() => {}} />)
+      }
       
       
       <TouchableOpacity onPress={toggleForm}>
