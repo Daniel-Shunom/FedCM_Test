@@ -5,3 +5,9 @@ export interface CreateSessionRequest {
 export interface CreateSessionResponse {
   token: string;
 }
+
+export interface GoogleAuth {
+  os?: 'web' | 'ios'
+  scriptSrc: string;
+  onPress: ()=> void;
+}

@@ -10,84 +10,88 @@ import React, { useState } from 'react';
 import { StyleSheet, TextInput, Text, TouchableOpacity } from 'react-native';
 import { ThemedView } from './ThemedView';
 import { ThemedText } from './ThemedText';
-import { GoogleSignInButton } from '@/components/ui/GoogleButtons/GWebSignin';
+import { GoogleWebButton } from '@/components/ui/GoogleButtons/GWebAuth';
+import { initializeGoogleSignIn } from '@/protected/auth/auth';
 
 interface SignUpFormProps {
-    onSubmit: (email: string, password: string) => void;
-    onBackToLogin: () => void;
-  }
+  onSubmit: (email: string, password: string) => void;
+  onBackToLogin: () => void;
+}
   
-  export function SignUpForm({ onSubmit, onBackToLogin }: SignUpFormProps) {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [confirmPassword, setConfirmPassword] = useState('');
-    const [error, setError] = useState('');
-  
-    const handleSubmit = () => {
-      if (password !== confirmPassword) {
-        setError('Passwords do not match');
-        return;
-      }
-      if (password.length < 6) {
-        setError('Password must be at least 6 characters');
-        return;
-      }
-      setError('');
-      onSubmit(email, password);
-    };
-  
-    return (
-      <ThemedView style={styles.container}>
-        <ThemedText type="title" style={styles.title}>Sign Up</ThemedText>
-        
-        <TextInput
-          style={styles.input}
-          placeholder="Email" 
-          value={email}
-          onChangeText={setEmail}
-          keyboardType="email-address"
-          autoCapitalize="none"
-          autoComplete="email"
-        />
-  
-        <TextInput
-          style={styles.input}
-          placeholder="Password"
-          value={password}
-          onChangeText={setPassword}
-          secureTextEntry
-          autoCapitalize="none"
-        />
-  
-        <TextInput
-          style={styles.input}
-          placeholder="Confirm Password"
-          value={confirmPassword}
-          onChangeText={setConfirmPassword}
-          secureTextEntry
-          autoCapitalize="none"
-        />
-  
-        {error ? <Text style={styles.errorText}>{error}</Text> : null}
-  
-        <TouchableOpacity 
-          style={styles.button}
-          onPress={handleSubmit}
-        >
-          <ThemedText style={styles.buttonText}>Sign Up</ThemedText>
-        </TouchableOpacity>
-  
-        <Text style={styles.buttonText1}>or signup with google</Text>
-        <GoogleSignInButton />
-  
-        <TouchableOpacity onPress={onBackToLogin}>
-          <Text style={[styles.buttonText1, styles.linkText]}>
-            Already have an account? Log in
-          </Text>
-        </TouchableOpacity>
-      </ThemedView>
-    );
-  }
+export function SignUpForm({ onSubmit, onBackToLogin }: SignUpFormProps,) {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [error, setError] = useState('');
+ 
+  const handleSubmit = () => {
+    if (password !== confirmPassword) {
+      setError('Passwords do not match');
+      return;
+    }
+    if (password.length < 6) {
+      setError('Password must be at least 6 characters');
+      return;
+    }
+    setError('');
+    onSubmit(email, password);
+  };
+ 
+  return (
+    <ThemedView style={styles.container}>
+      <ThemedText type="title" style={styles.title}>Sign Up</ThemedText>
+      
+      <TextInput
+        style={styles.input}
+        placeholder="Email" 
+        value={email}
+        onChangeText={setEmail}
+        keyboardType="email-address"
+        autoCapitalize="none"
+        autoComplete="email"
+      />
+ 
+      <TextInput
+        style={styles.input}
+        placeholder="Password"
+        value={password}
+        onChangeText={setPassword}
+        secureTextEntry
+        autoCapitalize="none"
+      />
+ 
+      <TextInput
+        style={styles.input}
+        placeholder="Confirm Password"
+        value={confirmPassword}
+        onChangeText={setConfirmPassword}
+        secureTextEntry
+        autoCapitalize="none"
+      />
+ 
+      {error ? <Text style={styles.errorText}>{error}</Text> : null}
+ 
+      <TouchableOpacity 
+        style={styles.button}
+        onPress={handleSubmit}
+      >
+        <ThemedText style={styles.buttonText}>Sign Up</ThemedText>
+      </TouchableOpacity>
+ 
+      <Text style={styles.buttonText1}>or signup with google</Text>
+      <GoogleWebButton
+        scriptSrc='https://accounts.google.com/gsi/client'
+        onPress={initializeGoogleSignIn}
+      />
+ 
+      <TouchableOpacity onPress={onBackToLogin}>
+        <Text style={[styles.buttonText1, styles.linkText]}>
+          Already have an account? Log in
+        </Text>
+      </TouchableOpacity>
+    </ThemedView>
+  );
+}
 
 const styles = StyleSheet.create({
   container: {
