@@ -10,7 +10,7 @@ import React, { useState } from 'react';
 import { StyleSheet, TextInput, Text, TouchableOpacity } from 'react-native';
 import { ThemedView } from './ThemedView';
 import { ThemedText } from './ThemedText';
-import GoogleSignUpButton from './ui/googleSiginButton';
+import { GoogleSignInButton } from '@/components/ui/GoogleButtons/GWebSignin';
 
 interface SignUpFormProps {
     onSubmit: (email: string, password: string) => void;
@@ -78,7 +78,7 @@ interface SignUpFormProps {
         </TouchableOpacity>
   
         <Text style={styles.buttonText1}>or signup with google</Text>
-        <GoogleSignUpButton />
+        <GoogleSignInButton />
   
         <TouchableOpacity onPress={onBackToLogin}>
           <Text style={[styles.buttonText1, styles.linkText]}>
