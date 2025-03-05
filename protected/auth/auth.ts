@@ -40,7 +40,7 @@ export async function fiboAuth(requestData: CreateSessionRequest): Promise<Creat
   return data
 }
 
-export const updateAuthState = (userData: any) => {
+export const updateAuthState =  (userData: JSON) => {
   console.warn("Implement updateAuthState to properly update the AuthContext");
   console.log('userData', userData)
   sessionStorage.setItem('Fibo_Session', JSON.stringify(userData))
