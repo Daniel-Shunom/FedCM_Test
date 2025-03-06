@@ -1,10 +1,12 @@
+import { User } from "./context/types";
+
 interface CredentialResponse {
   credential: string;
 }
 
 interface GoogleInitializeConfig {
   client_id?: string;
-  callback: (response: CredentialResponse) => void;
+  callback: (response: CredentialResponse) => void | Promise<User>;
   auto_select?: boolean;
   redirect_uri?: string;
   response_type?: string;
