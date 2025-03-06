@@ -5,7 +5,7 @@ import { ThemedText } from '@/components/ThemedText';
 interface ProfileSectionProps {
   session?: any;
   sessionProps?: JSON;
-  name?: string;
+  name?: string | null;
   role?: string;
   backgroundColor: string;
   stats?: {
@@ -17,13 +17,12 @@ interface ProfileSectionProps {
 export const ProfileSection: React.FC<ProfileSectionProps> = ({ 
   session = sessionStorage.getItem('Fibo_Session'),
   sessionProps = JSON.parse(session),
-  name = sessionProps.name, 
+  name = sessionProps?.name || 'USER NOT FOUND', 
   role = "Student",
   backgroundColor,
   stats = { courses: 12, progress: "85%" }
 }) => {
   const picture = sessionProps?.picture;
-
   return (
     <View style={[styles.container, { backgroundColor }]}>
       <View style={styles.profileInfo}>
