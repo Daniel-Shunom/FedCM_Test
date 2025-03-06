@@ -4,7 +4,7 @@ import { GoogleAuth } from '@/protected/types/types';
 
 const GoogleWebButton: React.FC<GoogleAuth> = ({
   scriptSrc,
-  onPress,
+  onPress
 }) => {
     useEffect(() => {
       if (Platform.OS === 'web') { // Only run on web
@@ -12,7 +12,7 @@ const GoogleWebButton: React.FC<GoogleAuth> = ({
         //script.src = "https://accounts.google.com/gsi/client";
         script.src = scriptSrc;
         script.async = true;
-        script.onload = onPress;
+        script.onload = onPress//Renders the Button and waits for the user to click to trigger auth flow;
         document.body.appendChild(script);
       }
     }, []);

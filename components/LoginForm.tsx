@@ -100,7 +100,7 @@ export function LoginForm({ onSubmit }: LoginFormProps) {
       {Platform.OS === 'web' ? (
           <GoogleWebButton 
             scriptSrc= 'https://accounts.google.com/gsi/client'
-            onPress={signIn} 
+            onPress={()=> {signIn && signIn()}} 
           />
         ) 
         : (<GoogleMobileSignin onPress={() => {}} />)
