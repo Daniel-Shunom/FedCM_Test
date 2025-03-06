@@ -9,5 +9,5 @@ export interface CreateSessionResponse {
 export interface GoogleAuth {
   os?: 'web' | 'ios'
   scriptSrc: string;
-  onPress: ()=> void;
+  onPress: ((respnonse: any)=> void) | (()=> void);
 }
