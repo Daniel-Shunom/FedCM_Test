@@ -1,14 +1,14 @@
 import { createContext, ReactNode } from "react";
 
 export interface User {
-    email: string;
-    name: string;
+    email: string | null;
+    name: string | null;
     fiboToken: string | null;
     clientToken?: string | null;
 }
 
 export interface AuthContextType {
-    signIn: ((response: any)=> Promise<void>) | (()=> void);
+    signIn: (()=> Promise<void>) | (()=> User);
     signUp?: ()=> User;
     signOut?: (()=> void);
 
