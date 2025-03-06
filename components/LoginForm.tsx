@@ -12,7 +12,7 @@ import { SignUpForm } from './SignupForm';
 
 import { GoogleWebButton } from './ui/GoogleButtons/GWebAuth'
 import { GoogleMobileSignin } from './ui/GoogleButtons/GMobileAuth'
-import { initializeGoogleSignIn } from '@/protected/auth/auth';
+import { useSession } from '@/context/AuthContext';
 
 interface LoginFormProps {
   onSubmit: (email: string, password: string) => void;
@@ -62,6 +62,8 @@ export function LoginForm({ onSubmit }: LoginFormProps) {
     );
   }
 
+  const { signIn } = useSession()
+
   return (
     <Animated.View style={[styles.container, { opacity: fadeAnim }]}>
       <ThemedText type="title" style={styles.title}>
@@ -98,7 +100,7 @@ export function LoginForm({ onSubmit }: LoginFormProps) {
       {Platform.OS === 'web' ? (
           <GoogleWebButton 
             scriptSrc= 'https://accounts.google.com/gsi/client'
-            onPress={initializeGoogleSignIn} 
+            onPress={signIn} 
           />
         ) 
         : (<GoogleMobileSignin onPress={() => {}} />)

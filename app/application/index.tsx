@@ -18,6 +18,7 @@ import { useRouter } from 'expo-router';
 import { CourseContainer } from '@/components/ui/courseContainer';
 import { ProfileSection } from '@/components/ui/profileSection';
 import { getCourses } from '@/protected/courses/courses';
+import { useSession } from '@/context/AuthContext';
 
 export default function HomeScreen() {
     const { width } = useWindowDimensions();
@@ -42,6 +43,8 @@ export default function HomeScreen() {
         fetchCourses();
     }, [token]);
 
+    const { signOut } = useSession()
+
     return (
         <ScrollView style={[styles.container, { backgroundColor }]}>
             <ThemedView style={styles.header}>
@@ -51,7 +54,7 @@ export default function HomeScreen() {
                 </View>
                 <TouchableOpacity 
                     style={styles.logoutButtonHeader}
-                    onPress={() => router.replace('/')}
+                    onPress={()=> {console.log('Logout button fired'); signOut}}
                 >
                     <ThemedText style={styles.logoutText}>Logout</ThemedText>
                 </TouchableOpacity>
