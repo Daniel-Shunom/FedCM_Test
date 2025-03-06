@@ -54,7 +54,8 @@ export default function HomeScreen() {
                 </View>
                 <TouchableOpacity 
                     style={styles.logoutButtonHeader}
-                    onPress={()=> {console.log('Logout button fired'); signOut}}
+                    // in future scenarios, ensure to check that the method is defined before calling it
+                    onPress={()=> {signOut && signOut()}}
                 >
                     <ThemedText style={styles.logoutText}>Logout</ThemedText>
                 </TouchableOpacity>
