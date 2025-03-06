@@ -17,14 +17,15 @@ export function SessionProvider(props: { children: ReactNode}) {
     const [user, setUser] = useState<User | null>(null)
     const [isLoading, setIsLoading] = useState<boolean>(true)
 
-    /*useEffect(() => {
-      if (!user && !isLoading) {
-        router.replace('/')
-      }
-    }, [user, isLoading])/**/
+    const signIn = async () => {
+        console.log('login has been triggered')
+        const newUser: User = await initializeGoogleSignIn();
+        console.log('login successful')
+        setUser(newUser)
+        setIsLoading(false)
+    }
 
     const logout = () => {
-        console.log('startinh logout')
         setUser(null)
         console.log('logout success')
         router.replace('/')
@@ -33,7 +34,7 @@ export function SessionProvider(props: { children: ReactNode}) {
     return (
         <AuthContext.Provider
             value={{
-                signIn: initializeGoogleSignIn,
+                signIn: signIn,
                 signOut: logout,
                 user: user,
                 isLoading: isLoading
