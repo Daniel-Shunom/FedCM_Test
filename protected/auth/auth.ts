@@ -1,19 +1,36 @@
+import { User } from "@/context/types";
 import { handleCredentialResponse } from "../tokenhandlers/handler";
 import { CreateSessionRequest, CreateSessionResponse } from "../types/types";
 
-export const initializeGoogleSignIn = () => {
-  window.google.accounts.id.initialize({
-    client_id: process.env.EXPO_PUBLIC_CLIENT_ID,
-    callback: handleCredentialResponse,
-    redirect_uri: '/applcation'
+export const initializeGoogleSignIn = async (): Promise<User> => {
+  return new Promise((resolve) => {
+    let newUser:User = {
+      email: null,
+      name: null,
+      fiboToken: null,
+      clientToken: null,
+    }
+
+    console.log('initializing login')
+    window.google.accounts.id.initialize({
+      client_id: process.env.EXPO_PUBLIC_CLIENT_ID,
+      callback: (response) => {
+        handleCredentialResponse(response)
+        .then((user: User) => {
+          newUser = {...newUser, ...user}
+          resolve(user);
+        })
+      },
+      redirect_uri: '/applcation'
+    });
+
+    window.google.accounts.id.renderButton(
+      document.getElementById("buttonDiv"),
+      { theme: "outline" , size: "large" }
+    );
+
+    window.google.accounts.id.prompt();
   });
-
-  window.google.accounts.id.renderButton(
-    document.getElementById("buttonDiv"),
-    { theme: "outline" , size: "large" }
-  );
-
-  window.google.accounts.id.prompt();
 };
 
 //starts fibo auth session and gets auth token
