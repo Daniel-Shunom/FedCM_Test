@@ -27,6 +27,8 @@ export function SessionProvider(props: { children: ReactNode}) {
 
     const logout = () => {
         setUser(null)
+        localStorage.clear()
+        sessionStorage.clear()
         console.log('logout success')
         router.replace('/')
     }
