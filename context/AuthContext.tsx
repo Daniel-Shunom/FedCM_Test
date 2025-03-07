@@ -26,6 +26,9 @@ export function SessionProvider(props: { children: ReactNode}) {
     }
 
     const logout = () => {
+        //we can add whatever logout dependent featuer here
+        //for instance if we need to log to the database to 
+        //sign out the user we can do that here
         setUser(null)
         localStorage.clear()
         sessionStorage.clear()
