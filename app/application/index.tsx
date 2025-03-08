@@ -102,7 +102,10 @@ export default function HomeScreen() {
                     <TouchableOpacity style={[styles.bentoBox, styles.boxLarge, { backgroundColor: boxBackground }]}>
                         <ThemedText style={styles.boxTitle}>Quick Actions</ThemedText>
                         <View style={styles.actionButtons}>
-                            <TouchableOpacity style={[styles.actionButton, { backgroundColor: actionButtonBackground }]}>
+                            <TouchableOpacity 
+                                style={[styles.actionButton, { backgroundColor: actionButtonBackground }]}
+                                onPress={()=> {}}
+                            >
                                 <ThemedText>Start New Project</ThemedText>
                             </TouchableOpacity>
                             <TouchableOpacity style={[styles.actionButton, { backgroundColor: actionButtonBackground }]}>
