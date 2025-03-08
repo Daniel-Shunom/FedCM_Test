@@ -2,9 +2,9 @@ import { TouchableOpacity, Image, Text, Platform } from 'react-native'
 import { GoogleSignInButtonProps } from '@/components/types/AuthButtons/types';
 import { styles } from './styles'
 
-const Google = require('../../../assets/buttons/Google/Google-Logo.wine.png')
+const Google = require('@/assets/buttons/Google/Google-Logo.wine.png')
 
-const GoogleMobileSignin: React.FC<GoogleSignInButtonProps> = ({ onPress, text = "Sign in with Google" }) => {
+const GoogleMobileSignin: React.FC<GoogleSignInButtonProps> = ({ onPress }) => {
   if (Platform.OS === 'web') {
     return null;
   }
@@ -15,7 +15,7 @@ const GoogleMobileSignin: React.FC<GoogleSignInButtonProps> = ({ onPress, text =
         source={Google} // Path to your Google icon
         style={styles.icon}
       />
-      <Text style={styles.text}>{text}</Text>
+      
     </TouchableOpacity>
   );
 };
