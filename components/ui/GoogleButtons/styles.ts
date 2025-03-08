@@ -1,4 +1,4 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet, Platform } from "react-native";
 
 const styles = StyleSheet.create({
   button: {
@@ -6,24 +6,24 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: '#fff',
-    borderRadius: 8,
-    paddingVertical: 12,
-    paddingHorizontal: 16,
+    borderRadius: 10,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.2,
-    shadowRadius: 2,
-    elevation: 3,
-    gap: 8,
+    shadowOpacity: 0.15,
+    shadowRadius: 4,
+    elevation: 4,
+    gap: 10,
   },
   icon: {
-    width:  50,
+    width: "40%",
     height: 50,
+    resizeMode: Platform.OS === 'ios' ? 'contain' : 'cover',
   },
   text: {
-    fontWeight: '500',
-    color: '#777',
+    fontWeight: '600',
+    color: '#444',
+    fontSize: 16,
   },
 });
 
-export { styles }
+export { styles };
