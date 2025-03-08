@@ -5,7 +5,7 @@ export interface ButtonProps {
     Color?: string;
     Size?: "small" | "medium" | "large";
     Width?: number | string;
-    onPress?: ()=> {} | void;
+    funcPress?:(()=> void) | void;
     Content: string;
 }
 
@@ -13,7 +13,8 @@ export const FiboButton:React.FC<ButtonProps> = ({
     BorderRadius,
     Color,
     Width,
-    Content
+    Content,
+    funcPress
 }) => {
     return (
         <TouchableOpacity 
@@ -36,6 +37,7 @@ export const FiboButton:React.FC<ButtonProps> = ({
                 gap: 8,
                 margin: 4
             }}
+            onPress={funcPress}
         >
             <Text>
                 {Content}

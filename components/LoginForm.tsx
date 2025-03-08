@@ -120,7 +120,7 @@ const styles = StyleSheet.create({
   container: {
     padding: 20,
     width: '100%',
-    maxWidth: 400,
+    maxWidth: 300,
     alignSelf: 'center',
     backgroundColor: '#d3d3d3',
     borderRadius: 8,
@@ -131,7 +131,7 @@ const styles = StyleSheet.create({
     color: '#000',
   },
   input: {
-    height: 48,
+    height: 40,
     borderWidth: 1,
     borderColor: '#ccc',
     borderRadius: 8,
