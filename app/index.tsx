@@ -14,6 +14,7 @@ export default function LoginScreen() {
   return (
     <ThemedView style={styles.container}>
       <LoginForm
+        //here just incase we want to use a regular login option
         onSubmit={(email, password) => {
         }}
       />
