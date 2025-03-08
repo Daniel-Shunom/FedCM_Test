@@ -35,7 +35,7 @@ export default function RootLayout() {
     if (!user) {
       console.log('User not found, redirecting to login screen')
       router.replace('/');
-    }
+    }/**/
   }, [loaded]);
 
   if (!loaded) {
