@@ -31,7 +31,7 @@ export function WelcomePage () {
         BorderRadius={10}
         Width={width}
         Content={content.btn2}
-        funcPress={()=> {router.navigate('/authentication/login')}} 
+        funcPress={()=> {router.push('./authentication/login')}} 
       />
     </View>
   )
