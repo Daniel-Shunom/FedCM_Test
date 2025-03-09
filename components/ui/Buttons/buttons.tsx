@@ -1,26 +1,39 @@
 import { View, TouchableOpacity, Text } from "react-native";
+import { Switch } from "react-native-web";
 
 export interface ButtonProps {
     BorderRadius?: number | string;
     Color?: string;
     Size?: "small" | "medium" | "large";
     Width?: number | string;
-    funcPress?:(()=> void) | void;
+    funcPress?:()=> {} | void | undefined
     Content: string;
 }
 
 export const FiboButton:React.FC<ButtonProps> = ({
-    BorderRadius,
-    Color,
+    BorderRadius = 8,
+    Color = '#fff',
     Width,
-    Content,
-    funcPress
+    Content = 'fibo button',
+    funcPress,
+    Size = 'medium'
 }) => {
+    const DefaultSize = () => {
+        switch (Size) {
+            case "small":
+                return 250
+            case "medium":
+                return 450
+            case "large":
+                return 650
+        }
+    };
+
     return (
         <TouchableOpacity 
             style={{
                 color: Color, 
-                width: Width, 
+                width: (Width ? Width : DefaultSize()), 
                 borderRadius: BorderRadius,
                 flexDirection: 'row',
                 alignItems: 'center',
@@ -37,6 +50,7 @@ export const FiboButton:React.FC<ButtonProps> = ({
                 gap: 8,
                 margin: 4
             }}
+
             onPress={funcPress}
         >
             <Text>
